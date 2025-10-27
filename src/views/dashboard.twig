@@ -1,0 +1,95 @@
+{% extends "base.twig" %}
+
+{% block title %}Dashboard - TicketMaster{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="container">
+        <h1 class="page-title">Dashboard</h1>
+        
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            <h2>Welcome back, {{ current_user.name }}! 👋</h2>
+            <p>Here's your ticket overview</p>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">📋</div>
+                <div class="stat-info">
+                    <h3>Total Tickets</h3>
+                    <p class="stat-number">{{ stats.total }}</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon open">🟢</div>
+                <div class="stat-info">
+                    <h3>Open</h3>
+                    <p class="stat-number">{{ stats.open }}</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon progress">🟡</div>
+                <div class="stat-info">
+                    <h3>In Progress</h3>
+                    <p class="stat-number">{{ stats.in_progress }}</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon closed">⚫</div>
+                <div class="stat-info">
+                    <h3>Closed</h3>
+                    <p class="stat-number">{{ stats.closed }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="/tickets" class="action-card">
+                    <div class="action-icon">🎫</div>
+                    <h3>View All Tickets</h3>
+                    <p>Browse and manage all support tickets</p>
+                </a>
+                
+                <a href="/tickets/create" class="action-card">
+                    <div class="action-icon">➕</div>
+                    <h3>Create New Ticket</h3>
+                    <p>Add a new support ticket</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Tickets -->
+        <div class="recent-tickets">
+            <h2>Recent Tickets</h2>
+            {% if tickets|length > 0 %}
+            <div class="tickets-preview">
+                {% for ticket in tickets|slice(0, 3) %}
+                <div class="ticket-preview-card">
+                    <div class="ticket-preview-header">
+                        <h4>{{ ticket.title }}</h4>
+                        <span class="status-badge status-{{ ticket.status }}">
+                            {{ ticket.status|replace({'_': ' '})|title }}
+                        </span>
+                    </div>
+                    <p class="ticket-preview-description">{{ ticket.description|slice(0, 100) }}{% if ticket.description|length > 100 %}...{% endif %}</p>
+                    <a href="/tickets" class="btn btn-outline">View All Tickets</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>No tickets yet. <a href="/tickets/create">Create your first ticket!</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

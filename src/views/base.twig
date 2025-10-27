@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TicketMaster{% endblock %}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="app">
+    <header class="app-header">
+    <div class="container">
+        <div class="logo">
+            <h1>TicketMaster</h1>
+        </div>
+        <nav class="nav">
+            {% if is_authenticated and current_user %}
+                <a href="/" class="{% if current_route == '/' %}active{% endif %}">Home</a>
+                <a href="/dashboard" class="{% if current_route == '/dashboard' %}active{% endif %}">Dashboard</a>
+                <a href="/tickets" class="{% if current_route == '/tickets' %}active{% endif %}">Tickets</a>
+                <span style="color: #6b7280; margin: 0 1rem;">Hello, {{ current_user.name }}</span>
+                <a href="/auth/logout" class="logout-btn">Logout</a>
+            {% else %}
+                <a href="/" class="{% if current_route == '/' %}active{% endif %}">Home</a>
+                <a href="/auth/login" class="{% if current_route == '/auth/login' %}active{% endif %}">Login</a>
+                <a href="/auth/signup" class="{% if current_route == '/auth/signup' %}active{% endif %}">Sign Up</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TicketMaster</h3>
+                    <p>Streamlining your support ticket management</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/tickets">Tickets</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>support@ticketmaster.com</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TicketMaster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends "base.twig" %}
+
+{% block title %}Create Ticket - TicketMaster{% endblock %}
+
+{% block content %}
+<div class="tickets">
+    <div class="container">
+        <div class="tickets-header">
+            <h1 class="page-title">Create New Ticket</h1>
+            <a href="/tickets" class="btn btn-outline">Back to Tickets</a>
+        </div>
+
+        <div class="ticket-form-container">
+            <form method="POST" class="ticket-form">
+                {% if error %}
+                    <div class="alert alert-error">{{ error }}</div>
+                {% endif %}
+                
+                <div class="form-group">
+                    <label for="title">Title *</label>
+                    <input 
+                        id="title" 
+                        name="title" 
+                        type="text" 
+                        required 
+                        value="{{ form_data.title ?? '' }}"
+                        placeholder="Enter ticket title"
+                        {% if errors.title %}class="error"{% endif %}
+                    >
+                    {% if errors.title %}
+                        <span class="error-message">{{ errors.title }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        rows="4" 
+                        placeholder="Describe the issue or request"
+                        {% if errors.description %}class="error"{% endif %}
+                    >{{ form_data.description ?? '' }}</textarea>
+                    {% if errors.description %}
+                        <span class="error-message">{{ errors.description }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select 
+                            id="status" 
+                            name="status" 
+                            required
+                            {% if errors.status %}class="error"{% endif %}
+                        >
+                            <option value="">Select Status</option>
+                            <option value="open" {{ (form_data.status ?? '') == 'open' ? 'selected' }}>Open</option>
+                            <option value="in_progress" {{ (form_data.status ?? '') == 'in_progress' ? 'selected' }}>In Progress</option>
+                            <option value="closed" {{ (form_data.status ?? '') == 'closed' ? 'selected' }}>Closed</option>
+                        </select>
+                        {% if errors.status %}
+                            <span class="error-message">{{ errors.status }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority">
+                            <option value="low" {{ (form_data.priority ?? '') == 'low' ? 'selected' }}>Low</option>
+                            <option value="normal" {{ (form_data.priority ?? 'normal') == 'normal' ? 'selected' }} selected>Normal</option>
+                            <option value="high" {{ (form_data.priority ?? '') == 'high' ? 'selected' }}>High</option>
+                            <option value="urgent" {{ (form_data.priority ?? '') == 'urgent' ? 'selected' }}>Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="/tickets" class="btn btn-outline">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Create Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

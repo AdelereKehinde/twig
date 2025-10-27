@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+
+{% block title %}Tickets - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="tickets">
+    <div class="container">
+        <div class="tickets-header">
+            <h1 class="page-title">Ticket Management</h1>
+            <a href="/tickets/create" class="btn btn-primary">Create New Ticket</a>
+        </div>
+
+        <div class="tickets-list">
+            {% for ticket in tickets %}
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h3 class="ticket-title">{{ ticket.title }}</h3>
+                    <span class="status-badge status-{{ ticket.status }}">
+                        {{ ticket.status|replace({'_': ' '})|title }}
+                    </span>
+                </div>
+                
+                <p class="ticket-description">{{ ticket.description }}</p>
+                
+                <div class="ticket-meta">
+                    <span class="ticket-priority">Priority: {{ ticket.priority|default('normal')|title }}</span>
+                    <span class="ticket-date">{{ ticket.created_at|format_date }}</span>
+                </div>
+                
+                <div class="ticket-actions">
+                    <a href="/tickets/edit?id={{ ticket.id }}" class="btn btn-outline">Edit</a>
+                    <form method="POST" action="/tickets/delete?id={{ ticket.id }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>No tickets found. Create your first ticket!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
