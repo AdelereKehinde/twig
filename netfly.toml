@@ -1,11 +1,23 @@
 [build]
   publish = "public"
-  command = "composer install"
+  command = "composer install --optimize-autoloader --no-dev"
+
+[build.environment]
+  PHP_VERSION = "8.2"
 
 [[redirects]]
   from = "/*"
   to = "/index.php"
   status = 200
 
-[build.environment]
-  PHP_VERSION = "8.2"
+# Handle static assets
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+# API routes or other specific paths
+[[redirects]]
+  from = "/api/*"
+  to = "/index.php"
+  status = 200
